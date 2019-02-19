@@ -1,15 +1,105 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+#include <stdio.h>
+#include <stdlib.h>
+#include <winsock.h>
+#include <MYSQL/mysql.h>
 
-/* 
- * File:   main.cpp
- * Author: Kerze
- *
- * Created on 14 février 2019, 14:19
- */
+
+//initialisation mysql 
+    mysql_init(MYSQL *mysql);
+    mysql_options(&mysql,MYSQL_READ_DEFAULT_GROUP,"option");
+
+/*localhost peut generer des erreurs(voir si possibilite herbergeur si BUG)*/
+    if(mysql_real_connect(&mysql,"localhost","mon_pseudo","******","ma_base",0,NULL,0))
+    {
+        mysql_close(&mysql);
+    }
+    else
+    {
+        printf("Une erreur s'est produite lors de la connexion à la BDD!");
+    }
+
+    return 0;
+
+
+const int tailleX = 2; // = Nombre de composants différents nécessaires.
+const int tailleY = 2; // = Nombre de produits à prendre en compte.
+
+double RetourneTableau()
+{
+    double tab;
+    tab = new double[tailleX][tailleY];
+    for(int i = 0;i<tailleY;i++)
+    {
+        for(int j = 0;j<tailleX;j++)
+        {
+            tab[i][j] = 0; // = Qte de composant j pour le produit i.
+        }   
+    }
+    return tab;
+}
+
+
+int TrouverColonnePivot(double tab,double Pivot)
+{
+    for(int i = 0;i<tailleY;i++)
+    {
+        for(int j = 0;j<tailleX;j++)
+        {
+            if(tab[i][j] = Pivot)
+            {
+                return j;
+            }
+        }
+    }
+}
+
+//const int colonnePivot = TrouverColonnePivot(tab,Pivot);
+
+int TrouverLignePivot(double tab,double Pivot)
+{
+    for(int i = 0;i<tailleY;i++)
+    {
+        for(int j = 0;j<tailleX;j++)
+        {
+            if(tab[i][j] = Pivot)
+            {
+                return j;
+            }
+        }
+    }
+}
+
+//const int lignePivot = TrouverLignePivot(tab,Pivot);
+
+
+/*BDD MySQL :
+ *      -Utilisateur (Username, Password, Email, Grade)
+ *      -Envoi (NbProduits, NbComposants, Resultat)
+ *      -Produits(NomProduit, PrixProduit, QteChaqueComposant, QteProduitsCrées)
+ *      -Composants (NomComposant, PrixComposant, QteComposantDispo, QteComposantRestants)
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//frantz
+/*
+
 
 #include <cstdlib>
 
@@ -29,7 +119,7 @@ int main(int argc, char** argv) {
 int main(void)
 {
     MYSQL mysql;
-    //initialisation 
+    //initialisation mysql 
     mysql_init(MYSQL *mysql);
     mysql_options(&mysql,MYSQL_READ_DEFAULT_GROUP,"option");
 
@@ -120,3 +210,8 @@ mysql_free_result(MYSQL_RES *result);
 
         //Fermeture de MySQL
         mysql_close(&mysql);
+
+
+
+//cette fonction stocke le jeu de résultat dans une mémoire tampon
+        mysql_store_result(MYSQL *mysql)
