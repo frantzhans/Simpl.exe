@@ -3,22 +3,31 @@
 #include <winsock.h>
 #include <MYSQL/mysql.h>
 
+using namespace std;
+
+
+int main(int argc, char*argv[])
+{
+    MYSQL *sql;
 
 //initialisation mysql 
-    mysql_init(MYSQL *mysql);
-    mysql_options(&mysql,MYSQL_READ_DEFAULT_GROUP,"option");
-
-/*localhost peut generer des erreurs(voir si possibilite herbergeur si BUG)*/
-    if(mysql_real_connect(&mysql,"localhost","mon_pseudo","******","ma_base",0,NULL,0))
+    if((sql = mysql_init(NULL))== NULL)
     {
-        mysql_close(&mysql);
-    }
-    else
+        printf("Erreur d'initialisation\n");
+        return 0;
+    }    
+//connexion au serveur(localhost)    
+    if(mysql_real_connect(sql,"localhost","USERNAME","PASSWORD","projeysimplexe",0,NULL,0))
     {
-        printf("Une erreur s'est produite lors de la connexion à la BDD!");
+       printf("erreur de connexion\n");
+       return 0;
     }
 
-    return 0;
+        //ON LANCE LA REQUETE 
+    requete(&mysql);
+
+       
+    
 
 
 const int tailleX = 2; // = Nombre de composants différents nécessaires.
@@ -67,7 +76,16 @@ int TrouverLignePivot(double tab,double Pivot)
             }
         }
     }
+
+     //fermeture connexion serveur MySQL
+    mysql_close(sql);    
+    
 }
+
+
+
+
+
 
 //const int lignePivot = TrouverLignePivot(tab,Pivot);
 
@@ -105,14 +123,6 @@ int TrouverLignePivot(double tab,double Pivot)
 
 using namespace std;
 
-/*
- * 
- */
-int main(int argc, char** argv) {
-    #include <stdio.h>
-#include <stdlib.h>
-#include <winsock.h>
-#include <MYSQL/mysql.h>
 
 
 
@@ -135,21 +145,6 @@ int main(void)
 
     return 0;
 }
-
-
-
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
 
 /*mysql_options :
 Le premier argument est un pointeur de structure, que nous avons vu juste avant.
